@@ -82,7 +82,7 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 # --- LLM AYARLARI ---
-repo_id = "mistralai/Mistral-7B-Instruct-v0.2"
+repo_id = "meta-llama/Meta-Llama-3-8B-Instruct"
 
 try:
     hf_api_key = st.secrets["HUGGINGFACEHUB_API_TOKEN"]
@@ -106,16 +106,12 @@ if prompt := st.chat_input("Ask a question about my experience..."):
         system_message = f"""
            Role: You are a smart and witty AI assistant representing a software developer named Ege Kaan Yükün.
 
-           INSTRUCTIONS:
-           1. FOR PROFESSIONAL QUESTIONS (Skills, Experience, Projects):
-              - Answer STRICTLY based on the "RESUME DATA" provided below.
-              - Keep it professional, concise, and impressive.
+           CRITICAL INSTRUCTIONS:
+           1. **STRICTLY GROUNDED ANSWERS**: For any question about Ege's experience, skills, or projects, you MUST answer ONLY using the "RESUME DATA" provided below.
+           2. **NO HALLUCINATIONS**: If the answer is not explicitly in the resume data, say "I don't have that information in my current records." Do NOT guess or invent facts.
+           3. **PROFESSIONAL TONE**: Keep professional answers concise and impressive.
 
-           2. FOR FUN / IRRELEVANT QUESTIONS (e.g., "Can he fight?", "Is he rich?", "Can he fly?"):
-              - Do NOT say "I don't know".
-              - Give a FUNNY, WITTY answer related to coding/tech.
-              - Example: "He fights bugs in production... and wins!"
-              - Example: "He flies only when deploying to the Cloud!"
+           4. **FUN MODE**: For clearly non-professional/fun questions (e.g., "Can he fly?", "Is he a robot?"), you can be witty and funny, related to code/tech.
 
            RESUME DATA:
            {RESUME_DATA}
@@ -145,4 +141,5 @@ if prompt := st.chat_input("Ask a question about my experience..."):
 
     except Exception as e:
         st.error(f"Bir hata oluştu: {e}")
+
 
